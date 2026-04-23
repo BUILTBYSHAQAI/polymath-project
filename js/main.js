@@ -149,4 +149,58 @@
     }
   }
 
+  /* ─────────────────────────────────────────────────────────────
+     ANIMATIONS — page load, hover, float
+  ───────────────────────────────────────────────────────────── */
+  gsap.registerPlugin(ScrollTrigger);
+
+  // ── Set initial invisible states before anything renders ──
+  const divRules = document.querySelectorAll('.divider-rule');
+  gsap.set('.divider-ornament', { autoAlpha: 0 });
+  gsap.set('.title',            { autoAlpha: 0, y: 30 });
+  gsap.set('.tagline',          { autoAlpha: 0 });
+  gsap.set(divRules[0],         { scaleX: 0, transformOrigin: 'right center' });
+  gsap.set(divRules[1],         { scaleX: 0, transformOrigin: 'left center' });
+  gsap.set('.portal-card',      { autoAlpha: 0, y: 40 });
+
+  // ── Entrance sequence ──
+  gsap.timeline({ delay: 0.15, onComplete: startFloat })
+    // 1. Ornament blooms in first
+    .to('.divider-ornament', { autoAlpha: 1, duration: 0.6,  ease: 'power3.out' })
+    // 2. Title slides up
+    .to('.title',            { autoAlpha: 1, y: 0, duration: 0.9,  ease: 'power3.out' }, '-=0.25')
+    // 3. Tagline fades in
+    .to('.tagline',          { autoAlpha: 1,       duration: 0.7,  ease: 'power3.out' }, '-=0.55')
+    // 4. Divider rules draw outward from centre simultaneously
+    .to(divRules,            { scaleX: 1,          duration: 0.7,  ease: 'power3.out' }, '-=0.45')
+    // 5. Cards slide up with stagger
+    .to('.portal-card',      { autoAlpha: 1, y: 0, duration: 0.85, ease: 'power3.out', stagger: 0.15 }, '-=0.3');
+
+  // ── Continuous float — starts after entrance so y values don't fight ──
+  function startFloat() {
+    const cards = document.querySelectorAll('.portal-card');
+    // Card 1 floats immediately; card 2 starts mid-cycle so they stay out of phase
+    gsap.to(cards[0], { y: -6, duration: 3, ease: 'sine.inOut', yoyo: true, repeat: -1 });
+    gsap.to(cards[1], { y: -6, duration: 3, ease: 'sine.inOut', yoyo: true, repeat: -1, delay: 1.5 });
+  }
+
+  // ── Hover: scale card + inner icon + numeral shift ──
+  // overwrite:'auto' keeps the float running on y while scale changes independently
+  document.querySelectorAll('.portal-card').forEach(card => {
+    const glyph   = card.querySelector('.portal-glyph');
+    const numeral = card.querySelector('.portal-numeral'); // present in dark variant
+
+    card.addEventListener('mouseenter', () => {
+      gsap.to(card, { scale: 1.03, duration: 0.3, ease: 'power2.out', overwrite: 'auto' });
+      if (glyph)   gsap.to(glyph,   { scale: 1.1, duration: 0.3, ease: 'power2.out' });
+      if (numeral) gsap.to(numeral, { y: -3,      duration: 0.3, ease: 'power2.out' });
+    });
+
+    card.addEventListener('mouseleave', () => {
+      gsap.to(card, { scale: 1,   duration: 0.3, ease: 'power2.out', overwrite: 'auto' });
+      if (glyph)   gsap.to(glyph,   { scale: 1,  duration: 0.3, ease: 'power2.out' });
+      if (numeral) gsap.to(numeral, { y: 0,       duration: 0.3, ease: 'power2.out' });
+    });
+  });
+
 })();

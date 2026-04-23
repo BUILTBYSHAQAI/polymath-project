@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Polymath Project</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Josefin+Sans:wght@300;400;600&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="styles/main.css" />
+</head>
+<body>
+
+  <!-- Full-screen vortex canvas (hidden until portal click) -->
+  <canvas id="vortex-canvas"></canvas>
+
+  <main class="container">
+
+    <header class="site-header">
+      <h1 class="title">
+        The&nbsp;<em class="title-polymath">Polymath</em>&nbsp;Project
+      </h1>
+    </header>
+
+    <div class="divider" aria-hidden="true">
+      <span class="divider-rule"></span>
+      <span class="divider-ornament">❧</span>
+      <span class="divider-rule"></span>
+    </div>
+
+    <nav class="portals" aria-label="Portfolio portals">
+
+      <article class="portal-card" data-href="ai.html"
+               role="link" tabindex="0"
+               aria-label="Enter AI Engineering portal">
+        <div class="portal-inner">
+          <span class="portal-glyph" aria-hidden="true">✦</span>
+          <span class="portal-label">AI Engineering</span>
+        </div>
+      </article>
+
+      <article class="portal-card" data-href="storytelling.html"
+               role="link" tabindex="0"
+               aria-label="Enter Storytelling portal">
+        <div class="portal-inner">
+          <span class="portal-glyph" aria-hidden="true">❦</span>
+          <span class="portal-label">Storytelling</span>
+        </div>
+      </article>
+
+    </nav>
+
+    <p class="page-hint">Choose your portal</p>
+
+  </main>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
